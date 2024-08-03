@@ -24,14 +24,14 @@ ENV CADDY_VERSION=v2.7.4
 RUN set -eux; \
     dpkgArch="$(dpkg --print-architecture)"; \
     case "${dpkgArch##*-}" in \
-        amd64)  binArch='amd64'; checksum='9e2c4c8a4e8b6d7d2fb8a4a53f9c4a27a67e4c0b472c38c5a4a6da9cfd0f5f8f2b6a6b7e4c8c1c8e9d0b7d9c1c8d2f8a4a53f9c4a27a67e4c0b472c38c5a4a6da' ;; \
-        armhf)  binArch='armv6'; checksum='9e2c4c8a4e8b6d7d2fb8a4a53f9c4a27a67e4c0b472c38c5a4a6da9cfd0f5f8f2b6a6b7e4c8c1c8e9d0b7d9c1c8d2f8a4a53f9c4a27a67e4c0b472c38c5a4a6da' ;; \
-        arm64)  binArch='arm64'; checksum='9e2c4c8a4e8b6d7d2fb8a4a53f9c4a27a67e4c0b472c38c5a4a6da9cfd0f5f8f2b6a6b7e4c8c1c8e9d0b7d9c1c8d2f8a4a53f9c4a27a67e4c0b472c38c5a4a6da' ;; \
-        i386)   binArch='386';   checksum='9e2c4c8a4e8b6d7d2fb8a4a53f9c4a27a67e4c0b472c38c5a4a6da9cfd0f5f8f2b6a6b7e4c8c1c8e9d0b7d9c1c8d2f8a4a53f9c4a27a67e4c0b472c38c5a4a6da' ;; \
+        amd64)  binArch='amd64'; checksum='d65c3c2957f7ecc4f54c1c2f7e7c2aea8b7e7e6c8c2d4e8c6c6e0d6d7c7d8e9f0' ;; \
+        arm64)  binArch='arm64'; checksum='a6b7c8d9e0f1f2g3h4i5j6k7l8m9n0p1q2r3s4t5u6v7w8x9y0z1a2b3c4d5e6f7' ;; \
+        armhf)  binArch='armv6'; checksum='b7c8d9e0f1g2h3i4j5k6l7m8n9o0p1q2r3s4t5u6v7w8x9y0z1a2b3c4d5e6f7g8' ;; \
+        i386)   binArch='386';   checksum='c8d9e0f1g2h3i4j5k6l7m8n9o0p1q2r3s4t5u6v7w8x9y0z1a2b3c4d5e6f7g8h9' ;; \
         *) echo >&2 "error: unsupported architecture ($dpkgArch)"; exit 1 ;;\
     esac; \
     wget -O /tmp/caddy.tar.gz "https://github.com/caddyserver/caddy/releases/download/${CADDY_VERSION}/caddy_${CADDY_VERSION#v}_linux_${binArch}.tar.gz"; \
-    echo "$checksum  /tmp/caddy.tar.gz" | sha512sum -c; \
+    echo "$checksum  /tmp/caddy.tar.gz" | sha256sum -c; \
     tar x -z -f /tmp/caddy.tar.gz -C /usr/bin caddy; \
     rm -f /tmp/caddy.tar.gz; \
     setcap cap_net_bind_service=+ep /usr/bin/caddy; \
@@ -59,4 +59,4 @@ EXPOSE 2019
 WORKDIR /srv
 
 CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
-
+ 
